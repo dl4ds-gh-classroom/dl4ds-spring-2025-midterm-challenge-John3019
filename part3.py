@@ -132,9 +132,9 @@ def main():
 
     CONFIG = {
         "model": "MyModel",   # Change name when using a different model
-        "batch_size": 16, # run batch size finder to find optimal batch size
+        "batch_size": 64, # run batch size finder to find optimal batch size
         "learning_rate": 0.001,
-        "epochs": 50,  # Train for longer in a real scenario
+        "epochs": 25,  # Train for longer in a real scenario
         "num_workers": 4, # Adjust based on your system
         "device": "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu",
         "data_dir": "./data",  # Make sure this directory exists
@@ -196,8 +196,11 @@ def main():
     ############################################################################
     #model = SimpleCNN()   # instantiate your model ### TODO\
     # model = models.resnet18(weights=None)  #Part 2, no weights just yet
-    model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)  #Part 3, weights
+    # model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)  #Part 3, weights
+    # model.fc = nn.Linear(512, 100)
+    model = models.resnet34(weights=models.ResNet34_Weights.IMAGENET1K_V1)
     model.fc = nn.Linear(512, 100)
+
     
     model = model.to(CONFIG["device"])   # move it to target device
 
