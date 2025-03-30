@@ -11,6 +11,7 @@ from tqdm.auto import tqdm  # For progress bars
 import wandb
 import json
 import torchvision.models as models
+from torchvision.models import ResNet50_Weights
 
 
 ################################################################################
