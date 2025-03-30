@@ -133,8 +133,8 @@ def main():
 
     CONFIG = {
         "model": "MyModel",   # Change name when using a different model
-        "batch_size": 64, # run batch size finder to find optimal batch size
-        "learning_rate": 0.001,
+        "batch_size": 128, # run batch size finder to find optimal batch size
+        "learning_rate": 0.001, #Low learning rate using Adam
         "epochs": 50,  # Train for longer in a real scenario
         "num_workers": 4, # Adjust based on your system
         "device": "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu",
@@ -197,14 +197,14 @@ def main():
     ############################################################################
     #model = SimpleCNN()   # instantiate your model ### TODO\
     # model = models.resnet18(weights=None)  #Part 2, no weights just yet
-    # model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)  #Part 3, weights
-    # model.fc = nn.Linear(512, 100)
+    model = models.resnet18(weights=models.ResNet18_Weights.IMAGENET1K_V1)  #Part 3, weights
+    model.fc = nn.Linear(512, 100)
     # model = models.resnet34(weights=models.ResNet34_Weights.IMAGENET1K_V1)
     # model.fc = nn.Linear(512, 100)
     # model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
     # model.classifier[1] = nn.Linear(1280, 100)
-    model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
-    model.fc = nn.Linear(2048, 100)  # ResNet-50 uses 2048 features
+    # model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
+    # model.fc = nn.Linear(2048, 100)  # ResNet-50 uses 2048 features
 
     
     model = model.to(CONFIG["device"])   # move it to target device
