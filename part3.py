@@ -200,8 +200,10 @@ def main():
     # model.fc = nn.Linear(512, 100)
     # model = models.resnet34(weights=models.ResNet34_Weights.IMAGENET1K_V1)
     # model.fc = nn.Linear(512, 100)
-    model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
-    model.classifier[1] = nn.Linear(1280, 100)
+    # model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.IMAGENET1K_V1)
+    # model.classifier[1] = nn.Linear(1280, 100)
+    model = models.resnet50(weights=ResNet50_Weights.IMAGENET1K_V1)
+    model.fc = nn.Linear(2048, 100)  # ResNet-50 uses 2048 features
 
     
     model = model.to(CONFIG["device"])   # move it to target device
@@ -224,9 +226,14 @@ def main():
     ############################################################################
     # Loss Function, Optimizer and optional learning rate scheduler
     ############################################################################
-    criterion = nn.CrossEntropyLoss()   ### TODO -- define loss criterion
-    optimizer = optim.SGD(model.parameters(), lr=CONFIG["learning_rate"], momentum=0.9, weight_decay=5e-4) ### TODO -- define optimizer
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)  # Add a scheduler   ### TODO -- you can optionally add a LR scheduler
+    # criterion = nn.CrossEntropyLoss()   ### TODO -- define loss criterion
+    # optimizer = optim.SGD(model.parameters(), lr=CONFIG["learning_rate"], momentum=0.9, weight_decay=5e-4) ### TODO -- define optimizer
+    # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)  # Add a scheduler   ### TODO -- you can optionally add a LR scheduler
+
+    criterion = nn.CrossEntropyLoss(label_smoothing=0.1)  # trying adam optimizer
+    optimizer = optim.AdamW(model.parameters(), lr=CONFIG["learning_rate"], weight_decay=1e-4)
+    scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=CONFIG["epochs"])
+
 
 
     # Initialize wandb
