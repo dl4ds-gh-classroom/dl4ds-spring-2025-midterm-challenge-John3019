@@ -133,9 +133,9 @@ def main():
 
     CONFIG = {
         "model": "MyModel",   # Change name when using a different model
-        "batch_size": 32, # run batch size finder to find optimal batch size
+        "batch_size": 8, # run batch size finder to find optimal batch size
         "learning_rate": 0.0015, #Low learning rate using Adam
-        "epochs": 100,  # Train for longer in a real scenario
+        "epochs": 50,  # Train for longer in a real scenario
         "num_workers": 4, # Adjust based on your system
         "device": "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu",
         "data_dir": "./data",  # Make sure this directory exists
